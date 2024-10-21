@@ -17,21 +17,22 @@ public class figure {
         int wRook = 1;
         int bRook = 7;
 
-        public static boolean rookMovementAllowed(int qRow, int qCol, int zRow, int zCol, int[][] board) {
+        public static void rookMovementAllowed(int qRow, int qCol, int zRow, int zCol, int[][] board) {
+            boolean moveallowed = true;
             if (qCol != zCol && qRow != zRow) {
-                return false;
+                moveallowed = false;
             }
             if (qCol == zCol) {
                 if (qRow < zRow) {                                  // nach unten
                     for (int row = qRow + 1; row < zRow + 1; row++) {
                         if (board[row][qCol] != 0) {
-                            return false;
+                            moveallowed = false;
                         }
                     }
                 } else if (qRow > zRow){                            //nach oben
                     for (int row = qRow - 1; row > zRow + 1; row--) {
                         if (board[row][qCol] != 0) {
-                            return false;
+                            moveallowed = false;
                         }
                     }
                 }
@@ -40,25 +41,62 @@ public class figure {
                 if (qCol < zCol) {                                  //nach rechts
                     for (int col = qCol + 1; col < zCol + 1; col++) {
                         if (board[qRow][col] != 0) {
-                            return false;
+                            moveallowed = false;
                         }
                     }
                 }
                 else if (qCol > zCol) {                             //nach links
                     for (int col = qCol - 1; col > zCol + 1; col--) {
                         if (board[qRow][col] != 0) {
-                            return false;
+                            moveallowed = false;
                         }
                     }
                 }
             }
-            return true;
+            if (moveallowed = true) {
+                movement.movefigure(board, qRow, qCol, zRow, zCol);
+            }
         }
     }
 
     public static class Knight {
         int wKnight = 2;
         int bKnight = 8;
+
+        public static void knightMovementAllowed(int qRow, int qCol,int zRow, int zCol, int[][] board) {
+            boolean moveallowed = false;
+            if (zRow == qRow + 2 && zCol == qCol + 1) {
+                moveallowed = true;
+            }
+            if (zRow == qRow + 2 && zCol == qCol - 1) {
+                moveallowed = true;
+            }
+            if (zRow == qRow - 2 && zCol == qCol - 1) {
+                moveallowed = true;
+            }
+            if (zRow == qRow - 2 && zCol == qCol + 1) {
+                moveallowed = true;
+            }
+            if (zRow == qRow - 1 && zCol == qCol - 2) {
+                moveallowed = true;
+            }
+            if (zRow == qRow + 1 && zCol == qCol - 2) {
+                moveallowed = true;
+            }
+            if (zRow == qRow - 1 && zCol == qCol + 2) {
+                moveallowed = true;
+            }
+            if (zRow == qRow + 1 && zCol == qCol + 2) {
+                moveallowed = true;
+            }
+
+            if (moveallowed == true) {
+                if (board[zRow][zCol] == 0) {
+                    movement.movefigure(board, qRow, qCol, zRow, zCol);
+                }
+            }
+
+        }
 
     }
     public static class Bishop {
