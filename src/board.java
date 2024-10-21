@@ -13,6 +13,11 @@ public class board {
                 board[i][j] = 14-j;
             }
         }
+        for (int i = 1; i < 2; i++) {       // schwarze bauern auf schwarze seite
+            for (int j = 0; j < 8; j++) {
+                board[i][j] = figure.Pawn.bPawn;
+            }
+        }
 
 
         for (int i = 7; i < 8; i++) {       //linke seite von weisseseite
@@ -25,6 +30,13 @@ public class board {
                 board[i][j] = 8-j;
             }
         }
+
+        for (int i = 6; i < 7; i++) {       // weiße bauern auf weiße seite
+            for (int j = 0; j < 8; j++) {
+                board[i][j] = figure.Pawn.wPawn;
+            }
+        }
+
         return board;
     }
 
