@@ -77,4 +77,6 @@ public class figure {
         int wPawn = 6;
         int bPawn = 12;
     }
+
+
 }

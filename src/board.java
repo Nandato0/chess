@@ -37,4 +37,5 @@ public class board {
             System.out.println();
         }
     }
+
 }
