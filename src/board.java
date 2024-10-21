@@ -17,12 +17,12 @@ public class board {
 
         for (int i = 7; i < 8; i++) {       //linke seite von weisseseite
             for (int j = 0; j < 5; j++) {
-                board[i][j] = 7+j;
+                board[i][j] = 1+j;
             }
         }
         for (int i = 7; i < 8; i++) {       //rechte seite von weisseseite
             for (int j = 5; j < 8; j++) {
-                board[i][j] = 14-j;
+                board[i][j] = 8-j;
             }
         }
         return board;

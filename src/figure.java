@@ -16,73 +16,50 @@ public class figure {
     public static class Rook {
         int wRook = 1;
         int bRook = 7;
-        public static boolean rookMovementAllowed(int qRow, int qCol, int zRow, int zCol, int [][] board) {
-            int checkUp = 0;
-            int checkDown = 0;
-            if (qCol == zCol) {
-                if (qRow < zRow){                           // wenn es nach unten geht
-                    for (int i = 1; i < 8 - qRow; i++) {
-                        if (board[qRow + i][qCol] == 0) {
-                            checkDown++;
-                        }
-                    }
-                    if (checkDown == zRow - qRow) {
-                        return true;
-                    }
-                }
 
-
-                if (qRow > zRow){                           // wenn es nach oben geht
-                    for (int i = 1; i < qRow + 1; i++) {
-                        if (board[qRow - i][qCol] == 0) {
-                            checkUp++;
-                        }
-                    }
-                    if (checkUp == qRow - zRow ) {
-                        return true;
-                    }
-                }
-
-
-
-
-            }
-
-            else if (qRow == zRow) {
-                if (qCol < zCol) {                           // wenn es nach rechts geht
-                    for (int i = 1; i < 8 - qCol; i++) {
-                        if (board[qRow][qCol + i] == 0) {
-                            checkUp++;
-                        }
-                    }
-                }
-
-                if (qRow > zRow) {                           // wenn es nach links geht
-                    for (int i = 1; i < qCol + 1; i++) {
-                        if (board[qRow][qCol - i] == 0) {
-                            checkDown++;
-                        }
-                    }
-                }
-            }
-            if (checkUp == qRow - zRow ) {
-                return true;
-            }
-
-            else if (checkDown == zRow - qRow) {
-                return true;
-            }
-            else {
+        public static boolean rookMovementAllowed(int qRow, int qCol, int zRow, int zCol, int[][] board) {
+            if (qCol != zCol && qRow != zRow) {
                 return false;
             }
+            if (qCol == zCol) {
+                if (qRow < zRow) {                                  // nach unten
+                    for (int row = qRow + 1; row < zRow + 1; row++) {
+                        if (board[row][qCol] != 0) {
+                            return false;
+                        }
+                    }
+                } else if (qRow > zRow){                            //nach oben
+                    for (int row = qRow - 1; row > zRow + 1; row--) {
+                        if (board[row][qCol] != 0) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            else if (qRow == zRow) {
+                if (qCol < zCol) {                                  //nach rechts
+                    for (int col = qCol + 1; col < zCol + 1; col++) {
+                        if (board[qRow][col] != 0) {
+                            return false;
+                        }
+                    }
+                }
+                else if (qCol > zCol) {                             //nach links
+                    for (int col = qCol - 1; col > zCol + 1; col--) {
+                        if (board[qRow][col] != 0) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
         }
     }
-
-
 
     public static class Knight {
         int wKnight = 2;
         int bKnight = 8;
+
     }
     public static class Bishop {
         int wBishop = 3;
