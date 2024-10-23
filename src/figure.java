@@ -21,9 +21,6 @@ public class figure {
             boolean moveAllowed = true;
             // Überprüfung, ob die Figur eine Dame oder ein Turm ist
             if (board[qRow][qCol] == wRook || board[qRow][qCol] == bRook || board[qRow][qCol] == Queen.wQueen || board[qRow][qCol] == Queen.bQueen) {
-                if (board[zRow][zCol] != 0) {
-                    moveAllowed = false;
-                }
                 // Überprüfung, ob die Bewegung horizontal oder vertikal ist
                 if (qCol == zCol || qRow == zRow) {
                     // Überprüfung der vertikalen Bewegung
@@ -83,8 +80,11 @@ public class figure {
                         zRow == qRow - 1 && zCol == qCol + 2 || zRow == qRow + 1 && zCol == qCol + 2;
 
                 if (moveallowed) {
-                    if (board[zRow][zCol] == 0) {
-                        movement.movefigure(board, qRow, qCol, zRow, zCol);
+                    if (board[qRow][qCol] == wKnight) {
+                        if (board[zRow][zCol] == bKnight || board[zRow][zCol] == Queen.bQueen || board[zRow][zCol] == Rook.bRook ||
+                                                            board[zRow][zCol] == Bishop.bBishop || board[zRow][zCol] == Pawn.bPawn || board[zRow][zCol] == 0) {
+                            movement.movefigure(board, qRow, qCol, zRow, zCol);
+                        }
                     }
                 }
             }
@@ -94,24 +94,39 @@ public class figure {
         static int wBishop = 3;
         static int bBishop = 9;
 
-        public static void bishopMovementAllowed(int qRow, int qCol, int zRow, int zCol, int[][]board) {
+        public static void bishopMovementAllowed(int qRow, int qCol, int zRow, int zCol, int[][] board) {
             boolean moveallowed = false;
-            if (board[qRow][qCol] == wBishop || board[qRow][qCol] == bBishop || board[qRow][qCol] == Queen.wQueen || board[qRow][qCol] == Queen.bQueen) {
-                int differenceRow = Math.abs(qRow - zRow);
-                int differenceCol = Math.abs(qCol - zCol);
-                if (differenceRow == differenceCol) {
-                    moveallowed = zRow == qRow - differenceRow && zCol == qCol - differenceRow ||
-                            zRow == qRow - differenceRow && zCol == qCol + differenceCol ||
-                            zRow == qRow + differenceRow && zCol == qCol - differenceRow ||
-                            zRow == qRow + differenceCol && zCol == qCol + differenceCol;
+
+            // Überprüfung ob die Figur ein Läufer oder eine queen ist
+            if (board[qRow][qCol] == wBishop || board[qRow][qCol] == bBishop ||
+                    board[qRow][qCol] == Queen.wQueen || board[qRow][qCol] == Queen.bQueen) {
+
+                int differenceRow = zRow - qRow;
+                int differenceCol = zCol - qCol;
+
+                // Überprüfe ob die Bewegung diagonal ist
+                if (Math.abs(differenceRow) == Math.abs(differenceCol)) {
+                    int rowDirection = differenceRow > 0 ? 1 : -1;
+                    int colDirection = differenceCol > 0 ? 1 : -1;
+                    int steps = Math.abs(differenceRow);
+
+                    // Überprüfe alle Felder zwischen Start und Ziel
+                    moveallowed = true;
+                    for (int i = 1; i < steps; i++) {
+                        if (board[qRow + i * rowDirection][qCol + i * colDirection] != 0) {
+                            moveallowed = false;  // Blockiert durch eine Figur
+                            break;
+                        }
+                    }
                 }
             }
+
+            // Bewege die Figur, falls erlaubt
             if (moveallowed) {
-                if (board[zRow][zCol] == 0) {
-                    movement.movefigure(board, qRow, qCol, zRow, zCol);
-                }
+                movement.movefigure(board, qRow, qCol, zRow, zCol);
             }
         }
+
     }
     public static class Queen {
         public static int wQueen = 4;
@@ -148,21 +163,26 @@ public class figure {
         public static int wPawn = 6;
         public static int bPawn = 12;
 
-        public static void wPawn(int qRow, int qCol, int zRow, int zCol, int [][] board) {
+        public static void wPawnMovementAllowed(int qRow, int qCol, int zRow, int zCol, int [][] board) {
             boolean moveallowed = false;
-            if (board[qRow][qCol] == wPawn) {
-                moveallowed = zRow == qRow - 1 && zCol == 0;
+            if (board[qRow][qCol] == wPawn) {           // move nach oben +1 oder +2
+                moveallowed = zRow == qRow - 1 && zCol == qCol && board[zRow][zCol] == 0 || zRow == qRow - 2 && zCol == qCol && qRow == 6 && board[zRow][zCol] == 0 ;
             }
+
             if (moveallowed) {
                 movement.movefigure(board, qRow, qCol, zRow, zCol);
             }
         }
 
-        public static void bPawn(int qRow, int qCol, int zRow, int zCol, int [][] board) {
+        public static void bPawnMovementAllowed(int qRow, int qCol, int zRow, int zCol, int [][] board) {
+            boolean moveallowed = false;
+            if (board[qRow][qCol] == bPawn) {           // move nach unten +1 oder +2
+                moveallowed = zRow == qRow + 1 && zCol == qCol && board[zRow][zCol] == 0 || zRow == qRow + 2 && zCol == qCol && qRow == 1 && board[zRow][zCol] == 0;
+            }
 
+            if (moveallowed) {
+                movement.movefigure(board, qRow, qCol, zRow, zCol);
+            }
         }
-
     }
-
-
 }

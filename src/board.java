@@ -33,7 +33,7 @@ public class board {
 
         for (int i = 6; i < 7; i++) {       // weiße bauern auf weiße seite
             for (int j = 0; j < 8; j++) {
-                board[i][j] = figure.Pawn.wPawn;
+                //board[i][j] = figure.Pawn.wPawn;
             }
         }
 
